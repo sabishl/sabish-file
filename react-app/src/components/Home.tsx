@@ -9,7 +9,7 @@ const Home: FC = () => {
         {/* Left Side - Text Content (now on the right at lg) */}
         <div className="order-2 lg:order-2 text-white space-y-6">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-            Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 hover:from-purple-500 hover:to-blue-400 transition-all duration-300">Sabish</span>
+            Hi, I'm <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-500 hover:from-purple-500 hover:to-blue-400 transition-all duration-300">Sabish</span>
           </h1>
           
           <p className="text-xl md:text-2xl lg:text-3xl text-gray-300 font-light leading-relaxed">
@@ -41,7 +41,7 @@ const Home: FC = () => {
 
           {/* Download Resume + Assistant Buttons */}
           <div className="pt-6 flex flex-wrap items-center gap-4">
-            <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900">
+            <button className="px-8 py-3 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900">
               Download Resume
             </button>
             <button className="px-8 py-3 bg-slate-800/70 hover:bg-slate-700 text-white font-semibold rounded-lg border border-slate-600 hover:border-purple-500/60 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900">
@@ -54,7 +54,7 @@ const Home: FC = () => {
         <div className="order-1 lg:order-1 flex justify-center lg:justify-start">
           <div className="relative group">
             {/* Glow effect background */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 rounded-2xl opacity-0 group-hover:opacity-75 blur-xl transition-all duration-500"></div>
+            <div className="absolute -inset-1 bg-linear-to-r from-blue-600 via-purple-600 to-blue-600 rounded-2xl opacity-0 group-hover:opacity-75 blur-xl transition-all duration-500"></div>
             
             {/* Image container */}
             <div className="relative w-72 h-72 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-800 to-slate-700 shadow-2xl">
@@ -65,6 +65,7 @@ const Home: FC = () => {
               />
             </div>
           </div>
+
         </div>
 
       </div>

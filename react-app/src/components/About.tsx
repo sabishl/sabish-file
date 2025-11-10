@@ -13,12 +13,12 @@ const About: FC = () => {
     { 
       category: "Web Technologies", 
       icon: "🌐",
-      items: ["ReactJS", "TypeScript", "Tailwind CSS", "Node.js", "Express", "PostgreSQL"] 
+      items: ["ReactJS", "Tailwind CSS", "Node.js", "Express", "PostgreSQL"] 
     },
     { 
       category: "AI / ML / LLM Tools", 
       icon: "🤖",
-      items: ["PyTorch", "Neural Networks", "Machine Learning", "LLM", "Anthropic", "OpenAI", "Gemma", "Kimi", "Ollama", "Hugging Face"] 
+      items: ["PyTorch", "Neural Networks", "Machine Learning", "LLM", "Ollama", "Hugging Face"] 
     }
   ];
 

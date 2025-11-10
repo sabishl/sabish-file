@@ -1,4 +1,8 @@
-import { FC, useState } from 'react';
+import { useState } from 'react';
+import type { FC } from 'react';
+import webCert from '../assets/certificates/8queens-web.jpg';
+import mobileCert from '../assets/certificates/8queens-mobile.jpg';
+import openWeaverCert from '../assets/certificates/openweaver.jpg';
 
 interface ExperienceData {
   id: number;
@@ -10,7 +14,10 @@ interface ExperienceData {
   techUsed?: string[];
   description: string[];
   projects?: { name: string; description: string }[];
-  certificateImage?: string;
+    certificateImages?: string[];
+    certificateTitle?: string;
+    certificatePeriod?: string;
+    points?: string[];
 }
 
 const experiencesData: ExperienceData[] = [
@@ -41,47 +48,52 @@ const experiencesData: ExperienceData[] = [
         description: "MERN Stack app with added features and database integration."
       }
     ],
-    certificateImage: "https://via.placeholder.com/600x400/3B82F6/FFFFFF?text=Certificate"
+    certificateImages: ["https://via.placeholder.com/600x400/3B82F6/FFFFFF?text=Certificate"]
   },
   {
     id: 2,
-    company: "8 Queens Software Solutions",
+    company: "8Queens Software Technologies",
     logo: "https://via.placeholder.com/150/8B5CF6/FFFFFF?text=8Q",
-    role: "Web Developer",
-    duration: "October 2024 – November 2024",
+    role: "Web Developer Intern",
+    duration: "July 2023 & Oct-Nov 2024",
     duringCollege: true,
     description: [
-      "Built a basic eCommerce site with JWT authentication",
-      "Implemented CRUD operations (Add/Edit/Delete/View Products)",
-      "Learned practical web app architecture and deployment"
+      "Completed two internships focusing on web and mobile technologies",
+      "Built full-stack applications with modern web technologies",
+      "Gained practical experience in both web and mobile development",
+      "Worked in an agile development environment",
+      "Collaborated with senior developers on real-world projects"
     ],
-    certificateImage: "https://via.placeholder.com/600x400/8B5CF6/FFFFFF?text=Certificate"
-  },
-  {
-    id: 3,
-    company: "8 Queens Software Solutions",
-    logo: "https://via.placeholder.com/150/8B5CF6/FFFFFF?text=8Q",
-    role: "Web Development Intern",
-    duration: "July 2024 (4 Weeks)",
-    duringCollege: true,
-    description: [
-      "Worked on foundational web design tasks",
-      "Understood frontend–backend data flow and layout structure"
+    points: [
+      "Web Technology Internship (10/07/2023 to 22/07/2023)",
+      "• Focused on frontend development with React",
+      "• Implemented responsive designs using Tailwind CSS",
+      "• Learned version control with Git",
+      "",
+      "Mobile Application Internship (18/10/2024 to 30/11/2024)",
+      "• Developed mobile-first web applications",
+      "• Worked on cross-platform compatibility",
+      "• Implemented progressive web apps (PWAs)"
     ],
-    certificateImage: "https://via.placeholder.com/600x400/8B5CF6/FFFFFF?text=Certificate"
+    certificateImages: [webCert, mobileCert]
   },
   {
     id: 4,
     company: "Open Weaver – ICT Academy",
     logo: "https://via.placeholder.com/150/10B981/FFFFFF?text=OW",
-    role: "Web Developer Intern",
-    duration: "During College",
+    role: "Full Stack Development Intern",
+    duration: "October 2023",
     duringCollege: true,
     description: [
-      "Learned HTML, CSS, JavaScript, SQL, and API (GET, POST, PUT, DELETE)",
-      "Explored full application workflow"
+      "Completed 4-Week Virtual Internship Program in Full Stack Development",
+      "Submitted an industry-ready project",
+      "Learned HTML, CSS, JavaScript, SQL, and RESTful APIs",
+      "Explored full application workflow with modern web technologies",
+      "Received certification under #Ready2GoDigital program"
     ],
-    certificateImage: "https://via.placeholder.com/600x400/10B981/FFFFFF?text=Certificate"
+    certificateTitle: "Full Stack Development Certificate",
+    certificatePeriod: "October 2023",
+    certificateImages: [openWeaverCert]
   }
 ];
 
@@ -110,7 +122,7 @@ const Experience: FC = () => {
 
         {/* Experience Cards Grid */}
         <div className="relative">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {experiencesData.map((exp) => (
               <div
                 key={exp.id}
@@ -169,7 +181,7 @@ const Experience: FC = () => {
           onClick={closeModal}
         >
           <div 
-            className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative"
+            className="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto relative"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -182,14 +194,46 @@ const Experience: FC = () => {
               </svg>
             </button>
 
-            {/* Certificate Image */}
-            {selectedExperience.certificateImage && (
+            {/* Certificate Images */}
+            {selectedExperience.certificateImages && selectedExperience.certificateImages.length > 0 && (
               <div className="w-full bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-t-2xl">
-                <img 
-                  src={selectedExperience.certificateImage} 
-                  alt="Certificate"
-                  className="w-full h-auto rounded-lg shadow-md"
-                />
+                {selectedExperience.certificateImages && selectedExperience.certificateImages.length > 0 && (
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {selectedExperience.certificateImages.map((cert, idx) => (
+                      <div key={idx} className="relative group">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 rounded-xl opacity-25 group-hover:opacity-50 blur transition-all duration-300"></div>
+                        <div className="relative bg-white p-4 rounded-xl shadow-xl">
+                          <img 
+                            src={cert} 
+                            alt={`Certificate ${idx + 1}`}
+                            className="w-full h-auto rounded-lg shadow-md hover:scale-[1.02] transition-transform duration-300 object-contain max-h-[60vh]"
+                          />
+                          {selectedExperience.company === "8Queens Software Technologies" && (
+                            <div className="mt-3 text-center">
+                              <h4 className="text-slate-800 font-semibold">
+                                {idx === 0 ? "Web Technology Internship" : "Mobile Application Internship"}
+                              </h4>
+                              <p className="text-slate-600 text-sm">
+                                {idx === 0 ? "July 2023" : "October-November 2024"}
+                              </p>
+                            </div>
+                          )}
+                          {selectedExperience.company === "Open Weaver – ICT Academy" && (
+                            <div className="mt-3 text-center">
+                              <h4 className="text-slate-800 font-semibold">
+                                Full Stack Development Certificate
+                              </h4>
+                              <p className="text-slate-600 text-sm">
+                                October 2023
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
               </div>
             )}
 
@@ -247,6 +291,22 @@ const Experience: FC = () => {
                 </ul>
               </div>
 
+              {/* Detailed Points */}
+              {selectedExperience.points && (
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold text-slate-800 mb-3">
+                    Internship Details
+                  </h3>
+                  <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-lg">
+                    {selectedExperience.points.map((point, idx) => (
+                      <p key={idx} className={`text-slate-700 ${point === "" ? "mt-4" : "ml-4"}`}>
+                        {point}
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Projects */}
               {selectedExperience.projects && (
                 <div>
@@ -270,6 +330,22 @@ const Experience: FC = () => {
                   </div>
                 </div>
               )}
+
+              {/* Contact info (bottom of modal) */}
+              <div className="mt-8 border-t pt-6">
+                <h3 className="text-lg font-semibold text-slate-800 mb-2">Contact</h3>
+                <div className="text-slate-700 space-y-1">
+                  <p>
+                    Email: <a className="text-blue-600 hover:underline" href="mailto:lsabish2001@gmail.com">lsabish2001@gmail.com</a>
+                  </p>
+                  <p>
+                    Phone: <a className="text-blue-600 hover:underline" href="tel:+919095399164">+91 90953 99164</a>
+                  </p>
+                  <p>
+                    LinkedIn: <a className="text-blue-600 hover:underline" href="https://www.linkedin.com/in/sabish-l" target="_blank" rel="noopener noreferrer">www.linkedin.com/in/sabish-l</a>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
