@@ -127,40 +127,52 @@ const Experience: FC = () => {
               <div
                 key={exp.id}
                 onClick={() => handleCardClick(exp)}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 cursor-pointer hover:scale-105"
+                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 cursor-pointer hover:scale-105 min-h-[320px] overflow-hidden"
               >
                 <div className="flex flex-col h-full">
                   {/* Company Logo */}
-                  <div className="h-20 bg-gradient-to-br from-blue-50 to-purple-50 rounded-t-2xl flex items-center justify-center p-2">
-                    <img 
-                      src={exp.logo} 
+                  <div className="h-24 bg-gradient-to-br from-blue-50 to-purple-50 rounded-t-2xl flex items-center justify-center p-4">
+                    <img
+                      src={exp.logo}
                       alt={exp.company}
                       className="max-h-full max-w-full object-contain"
                     />
                   </div>
 
                   {/* Card Content */}
-                  <div className="p-2.5 flex-1 flex flex-col">
-                    <h3 className="text-sm font-bold text-slate-800 mb-1">
+                  <div className="p-6 flex-1 flex flex-col">
+                    <h3 className="text-lg font-bold text-slate-800 mb-2">
                       {exp.company}
                     </h3>
-                    <p className="text-blue-600 font-semibold mb-0.5 text-xs">
+                    <p className="text-blue-600 font-semibold mb-1 text-sm">
                       {exp.role}
                     </p>
-                    <p className="text-slate-600 text-xs mb-2">
+                    <p className="text-slate-600 text-sm mb-4">
                       {exp.duration}
                     </p>
-                    
+
                     {exp.duringCollege && (
-                      <span className="inline-block bg-blue-100 text-blue-700 text-[10px] font-semibold px-2 py-0.5 rounded-full w-fit">
+                      <span className="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full w-fit">
                         During College
                       </span>
                     )}
 
-                    <div className="mt-auto pt-2">
-                      <button className="text-blue-600 hover:text-blue-700 font-medium text-xs flex items-center gap-1">
-                        View Details 
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {/* Certificate Badge */}
+                    {exp.certificateImages && exp.certificateImages.length > 0 && (
+                      <div className="mt-auto pt-4">
+                        <div className="flex items-center gap-2 text-green-600 text-xs font-medium">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                          {exp.certificateImages.length} Certificate{exp.certificateImages.length > 1 ? 's' : ''} Available
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="mt-auto pt-4">
+                      <button className="text-blue-600 hover:text-blue-700 font-medium text-sm flex items-center gap-2">
+                        View Details
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </button>
@@ -197,43 +209,74 @@ const Experience: FC = () => {
             {/* Certificate Images */}
             {selectedExperience.certificateImages && selectedExperience.certificateImages.length > 0 && (
               <div className="w-full bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-t-2xl">
-                {selectedExperience.certificateImages && selectedExperience.certificateImages.length > 0 && (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {selectedExperience.certificateImages.map((cert, idx) => (
-                      <div key={idx} className="relative group">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 rounded-xl opacity-25 group-hover:opacity-50 blur transition-all duration-300"></div>
-                        <div className="relative bg-white p-4 rounded-xl shadow-xl">
-                          <img 
-                            src={cert} 
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">🏆 Certificates</h3>
+                  <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {selectedExperience.certificateImages.map((cert, idx) => (
+                    <div key={idx} className="relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 rounded-xl opacity-25 group-hover:opacity-50 blur transition-all duration-300"></div>
+                      <div className="relative bg-white p-4 rounded-xl shadow-xl">
+                        <div className="relative aspect-[3/2] bg-gray-50 rounded-lg overflow-hidden">
+                          <img
+                            src={cert}
                             alt={`Certificate ${idx + 1}`}
-                            className="w-full h-auto rounded-lg shadow-md hover:scale-[1.02] transition-transform duration-300 object-contain max-h-[60vh]"
+                            className="w-full h-full object-contain"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const parent = target.parentElement;
+                              if (parent) {
+                                parent.innerHTML = `
+                                  <div class="flex items-center justify-center h-full bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg">
+                                    <div class="text-center p-6">
+                                      <svg class="w-16 h-16 mx-auto mb-3 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                      </svg>
+                                      <p class="text-slate-600 font-medium">Certificate Image Not Available</p>
+                                      <p class="text-slate-500 text-sm mt-1">Certificate file may be corrupted or missing</p>
+                                    </div>
+                                  </div>
+                                `;
+                              }
+                            }}
                           />
-                          {selectedExperience.company === "8Queens Software Technologies" && (
-                            <div className="mt-3 text-center">
-                              <h4 className="text-slate-800 font-semibold">
-                                {idx === 0 ? "Web Technology Internship" : "Mobile Application Internship"}
-                              </h4>
-                              <p className="text-slate-600 text-sm">
-                                {idx === 0 ? "July 2023" : "October-November 2024"}
-                              </p>
-                            </div>
-                          )}
-                          {selectedExperience.company === "Open Weaver – ICT Academy" && (
-                            <div className="mt-3 text-center">
-                              <h4 className="text-slate-800 font-semibold">
-                                Full Stack Development Certificate
-                              </h4>
-                              <p className="text-slate-600 text-sm">
-                                October 2023
-                              </p>
-                            </div>
-                          )}
                         </div>
+                        {selectedExperience.company === "8Queens Software Technologies" && (
+                          <div className="mt-3 text-center">
+                            <h4 className="text-slate-800 font-semibold">
+                              {idx === 0 ? "Web Technology Internship" : "Mobile Application Internship"}
+                            </h4>
+                            <p className="text-slate-600 text-sm">
+                              {idx === 0 ? "July 2023" : "October-November 2024"}
+                            </p>
+                          </div>
+                        )}
+                        {selectedExperience.company === "Open Weaver – ICT Academy" && (
+                          <div className="mt-3 text-center">
+                            <h4 className="text-slate-800 font-semibold">
+                              Full Stack Development Certificate
+                            </h4>
+                            <p className="text-slate-600 text-sm">
+                              October 2023
+                            </p>
+                          </div>
+                        )}
+                        {selectedExperience.company === "Wisright Technologies" && (
+                          <div className="mt-3 text-center">
+                            <h4 className="text-slate-800 font-semibold">
+                              Certificate of Completion
+                            </h4>
+                            <p className="text-slate-600 text-sm">
+                              {selectedExperience.duration}
+                            </p>
+                          </div>
+                        )}
                       </div>
-                    ))}
-                  </div>
-                )}
-
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 
@@ -331,22 +374,7 @@ const Experience: FC = () => {
                 </div>
               )}
 
-              {/* Contact info (bottom of modal) */}
-              <div className="mt-8 border-t pt-6">
-                <h3 className="text-lg font-semibold text-slate-800 mb-2">Contact</h3>
-                <div className="text-slate-700 space-y-1">
-                  <p>
-                    Email: <a className="text-blue-600 hover:underline" href="mailto:lsabish2001@gmail.com">lsabish2001@gmail.com</a>
-                  </p>
-                  <p>
-                    Phone: <a className="text-blue-600 hover:underline" href="tel:+919095399164">+91 90953 99164</a>
-                  </p>
-                  <p>
-                    LinkedIn: <a className="text-blue-600 hover:underline" href="https://www.linkedin.com/in/sabish-l" target="_blank" rel="noopener noreferrer">www.linkedin.com/in/sabish-l</a>
-                  </p>
-                </div>
               </div>
-            </div>
           </div>
         </div>
       )}

@@ -1,7 +1,11 @@
 import type { FC } from 'react';
 import sabishImage from '../assets/sabish.png';
 
-const Home: FC = () => {
+interface HomeProps {
+  toggleChat: () => void;
+}
+
+const Home: FC<HomeProps> = ({ toggleChat }) => {
   return (
     <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-6 py-12 lg:px-20">
       <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -40,12 +44,65 @@ const Home: FC = () => {
           </div>
 
           {/* Download Resume + Assistant Buttons */}
-          <div className="pt-6 flex flex-wrap items-center gap-4">
-            <button className="px-8 py-3 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-purple-500/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900">
-              Download Resume
-            </button>
-            <button className="px-8 py-3 bg-slate-800/70 hover:bg-slate-700 text-white font-semibold rounded-lg border border-slate-600 hover:border-purple-500/60 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/30 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900">
-              Assistant
+          <div className="pt-8 flex flex-wrap items-center gap-6">
+            <a
+              href="/Sabish L_resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              download="Sabish_L_resume.pdf"
+              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-500 hover:via-purple-500 hover:to-pink-500 text-white font-bold rounded-xl transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50 focus:outline-none focus:ring-4 focus:ring-purple-500/50 overflow-hidden"
+            >
+              {/* Animated background gradient */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              {/* Button content */}
+              <div className="relative flex items-center gap-3">
+                <svg
+                  className="w-5 h-5 group-hover:animate-bounce transition-all duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+                <span>Download Resume</span>
+              </div>
+
+              {/* Shine effect on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              </div>
+            </a>
+
+            <button
+              onClick={toggleChat}
+              className="group relative px-8 py-4 bg-slate-800/80 hover:bg-slate-700 text-white font-bold rounded-xl border-2 border-slate-600 hover:border-purple-500/60 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/30 focus:outline-none focus:ring-4 focus:ring-blue-500/50 overflow-hidden"
+            >
+              {/* Button content */}
+              <div className="flex items-center gap-3">
+                <svg
+                  className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  />
+                </svg>
+                <span>Assistant</span>
+              </div>
+
+              {/* Glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-300"></div>
             </button>
           </div>
         </div>
