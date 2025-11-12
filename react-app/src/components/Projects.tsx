@@ -61,11 +61,13 @@ const Projects: FC = () => {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 380; // Card width + gap
-      const newScrollPosition = direction === 'left' 
-        ? scrollContainerRef.current.scrollLeft - scrollAmount
+      const cardWidth = 350; // Card width
+      const gap = 24; // Gap between cards
+      const scrollAmount = cardWidth + gap; // Total scroll amount
+      const newScrollPosition = direction === 'left'
+        ? Math.max(0, scrollContainerRef.current.scrollLeft - scrollAmount)
         : scrollContainerRef.current.scrollLeft + scrollAmount;
-      
+
       scrollContainerRef.current.scrollTo({
         left: newScrollPosition,
         behavior: 'smooth'
@@ -144,7 +146,7 @@ const Projects: FC = () => {
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-            💼 My <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Projects</span>
+            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Projects</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
           <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
@@ -153,12 +155,12 @@ const Projects: FC = () => {
         </div>
 
         {/* All Projects - Horizontal Scroll with Arrow Buttons */}
-        <div className="relative group/carousel">
-          
+        <div className="relative group/carousel flex items-center gap-4">
+
           {/* Left Arrow Button */}
           <button
             onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 hover:bg-blue-500 text-slate-800 hover:text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+            className="flex-shrink-0 w-14 h-14 bg-gradient-to-r from-blue-500/90 to-purple-500/90 hover:from-blue-500 hover:to-purple-500 text-white rounded-full shadow-xl shadow-purple-500/30 flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-white/20 backdrop-blur-sm"
             aria-label="Scroll left"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -166,29 +168,31 @@ const Projects: FC = () => {
             </svg>
           </button>
 
-          {/* Right Arrow Button */}
-          <button
-            onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 hover:bg-blue-500 text-slate-800 hover:text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
-            aria-label="Scroll right"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-
           {/* Projects Container */}
-          <div 
+          <div
             ref={scrollContainerRef}
-            className="flex overflow-x-auto gap-6 pb-6 snap-x snap-mandatory scrollbar-hide"
+            className="flex-1 overflow-x-auto gap-6 pb-6 snap-x snap-mandatory scrollbar-hide"
             style={{
               scrollBehavior: 'smooth',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none'
             }}
           >
-            {[...mainProjects, ...additionalProjects].map((project) => renderProjectCard(project))}
+            <div className="flex gap-6">
+              {[...mainProjects, ...additionalProjects].map((project) => renderProjectCard(project))}
+            </div>
           </div>
+
+          {/* Right Arrow Button */}
+          <button
+            onClick={() => scroll('right')}
+            className="flex-shrink-0 w-14 h-14 bg-gradient-to-r from-blue-500/90 to-purple-500/90 hover:from-blue-500 hover:to-purple-500 text-white rounded-full shadow-xl shadow-purple-500/30 flex items-center justify-center transition-all duration-300 hover:scale-110 border-2 border-white/20 backdrop-blur-sm"
+            aria-label="Scroll right"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
       </div>
 

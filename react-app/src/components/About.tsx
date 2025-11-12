@@ -1,44 +1,58 @@
 import type { FC } from 'react';
 import { useState } from 'react';
 import aboutImage from '../assets/ab6.png';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 
 const About: FC = () => {
   const [showAchievementModal, setShowAchievementModal] = useState(false);
+  const { ref: sectionRef, isVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: headerRef, isVisible: headerVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: contentRef, isVisible: contentVisible } = useScrollReveal({ threshold: 0.1 });
+  const { ref: skillsRef, isVisible: skillsVisible } = useScrollReveal({ threshold: 0.1 });
   const skills = [
-    { 
-      category: "Programming Languages", 
-      icon: "🧩",
-      items: ["Java", "Python", "JavaScript", "SQL"] 
+    {
+      category: "Programming Languages",
+      items: ["Java", "Python", "JavaScript", "SQL"]
     },
-    { 
-      category: "Web Technologies", 
-      icon: "🌐",
-      items: ["ReactJS", "Tailwind CSS", "Node.js", "Express", "PostgreSQL"] 
+    {
+      category: "Web Technologies",
+      items: ["ReactJS", "Tailwind CSS", "Node.js", "Express", "PostgreSQL"]
     },
-    { 
-      category: "AI / ML / LLM Tools", 
-      icon: "🤖",
-      items: ["PyTorch", "Neural Networks", "Machine Learning", "LLM", "Ollama", "Hugging Face"] 
+    {
+      category: "AI / ML / LLM Tools",
+      items: ["PyTorch", "Neural Networks", "Machine Learning", "LLM", "Ollama", "Hugging Face"]
     }
   ];
 
   return (
-    <section id="about" className="min-h-screen bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 flex items-center justify-center px-6 py-20 lg:px-20">
-      <div className="max-w-7xl w-full">
-        
+    <section id="about" ref={sectionRef} className={`relative min-h-screen bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 flex items-center justify-center px-6 py-20 lg:px-20 overflow-hidden transition-all duration-1000 ${
+      isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+    }`}>
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 right-20 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-700"></div>
+      </div>
+
+      <div className="max-w-7xl w-full relative z-10">
+
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div ref={headerRef} className={`text-center mb-16 transition-all duration-700 delay-300 ${
+          headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Me</span>
+            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-gradient bg-300">Me</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full animate-pulse"></div>
         </div>
 
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          
+
           {/* Left Side - Content */}
-          <div className="space-y-8 order-2 lg:order-1">
+          <div ref={contentRef} className={`space-y-8 order-2 lg:order-1 transition-all duration-700 delay-500 ${
+            contentVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
+          }`}>
             
             {/* Introduction */}
             <div className="space-y-4">
@@ -66,11 +80,11 @@ const About: FC = () => {
 
                       {/* Left Section - Award Icon & Details */}
                       <div className="flex items-center gap-3 w-full sm:w-auto">
-                        {/* Compact Award Icon */}
+                        {/* Compact Award Badge */}
                         <div className="relative group/icon flex-shrink-0">
-                          {/* Main icon container */}
-                          <div className="relative bg-gradient-to-br from-amber-500/20 to-orange-500/20 backdrop-blur-sm p-3 rounded-xl border border-amber-400/25 hover:border-amber-400/40 transition-all duration-300">
-                            <span className="text-3xl sm:text-4xl filter drop-shadow-lg animate-pulse">🏆</span>
+                          {/* Main badge container */}
+                          <div className="relative bg-gradient-to-br from-amber-500/20 to-orange-500/20 backdrop-blur-sm px-4 py-2 rounded-xl border border-amber-400/25 hover:border-amber-400/40 transition-all duration-300">
+                            <span className="text-amber-300 font-bold text-sm">AWARD</span>
                             {/* Small sparkle effect */}
                             <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-amber-300 rounded-full animate-ping"></div>
                           </div>
@@ -142,15 +156,17 @@ const About: FC = () => {
             </div>
 
             {/* Skills Cards - Horizontal Layout (3 cards below) */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div ref={skillsRef} className={`grid grid-cols-1 md:grid-cols-3 gap-4 transition-all duration-700 delay-700 ${
+              skillsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+            }`}>
               {skills.map((skillSet, index) => (
-                <div 
+                <div
                   key={index}
-                  className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-4 border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20"
+                  className={`bg-slate-800/50 backdrop-blur-sm rounded-lg p-4 border border-slate-700/50 hover:border-blue-500/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20 hover:-translate-y-2 card-hover`}
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  {/* Header with Icon */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-2xl">{skillSet.icon}</span>
+                  {/* Header */}
+                  <div className="mb-3">
                     <h3 className="text-white font-bold text-sm">
                       {skillSet.category}
                     </h3>
@@ -174,18 +190,20 @@ const About: FC = () => {
           </div>
 
           {/* Right Side - Image */}
-          <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+          <div className={`order-1 lg:order-2 flex justify-center lg:justify-end transition-all duration-700 delay-700 ${
+            contentVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
+          }`}>
             <div className="relative group overflow-visible">
               
               {/* Animated background circles */}
               <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-3xl opacity-20 blur-2xl group-hover:opacity-40 transition-opacity duration-500 animate-pulse"></div>
               
-              {/* Tech icons floating effect */}
+              {/* Tech badges floating effect */}
               <div className="absolute -top-8 -left-8 w-16 h-16 bg-blue-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center border border-blue-400/30 animate-bounce group-hover:scale-110 transition-transform duration-300">
-                <span className="text-2xl">⚛️</span>
+                <span className="text-blue-300 font-bold text-sm">React</span>
               </div>
               <div className="absolute -bottom-8 -right-8 w-16 h-16 bg-purple-500/20 backdrop-blur-sm rounded-lg flex items-center justify-center border border-purple-400/30 animate-bounce group-hover:scale-110 transition-transform duration-300" style={{ animationDelay: '0.5s' }}>
-                <span className="text-2xl">🤖</span>
+                <span className="text-purple-300 font-bold text-sm">AI</span>
               </div>
               
               {/* Image container */}
@@ -286,10 +304,10 @@ const About: FC = () => {
               {/* Achievement Overview */}
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-8">
                 <div className="relative">
-                  {/* Glow effect for trophy */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full blur-lg opacity-50 animate-pulse"></div>
+                  {/* Glow effect for award */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg blur-lg opacity-50 animate-pulse"></div>
                   <div className="relative bg-gradient-to-br from-amber-500/20 to-orange-500/20 backdrop-blur-sm p-4 rounded-2xl border border-amber-400/30">
-                    <span className="text-5xl lg:text-6xl filter drop-shadow-lg">🏆</span>
+                    <span className="text-amber-300 font-bold text-2xl lg:text-3xl">AWARD</span>
                   </div>
                 </div>
 
@@ -340,8 +358,7 @@ const About: FC = () => {
                 <div className="grid sm:grid-cols-2 gap-4 mb-4">
                   <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-600/30">
                     <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Platform</p>
-                    <p className="text-white font-semibold flex items-center gap-2">
-                      <span className="text-red-400">🔴</span>
+                    <p className="text-white font-semibold">
                       Oracle APEX
                     </p>
                   </div>
@@ -373,25 +390,20 @@ const About: FC = () => {
                       Key Features
                     </h5>
                     <ul className="text-slate-300 text-sm space-y-2">
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-400 mt-1">✓</span>
-                        Complete student registration and application workflow
+                      <li className="text-slate-300">
+                        • Complete student registration and application workflow
                       </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-400 mt-1">✓</span>
-                        Intelligent course allocation system with automated processing
+                      <li className="text-slate-300">
+                        • Intelligent course allocation system with automated processing
                       </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-400 mt-1">✓</span>
-                        Comprehensive fee management and payment tracking
+                      <li className="text-slate-300">
+                        • Comprehensive fee management and payment tracking
                       </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-400 mt-1">✓</span>
-                        Advanced admin dashboard with real-time analytics
+                      <li className="text-slate-300">
+                        • Advanced admin dashboard with real-time analytics
                       </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-green-400 mt-1">✓</span>
-                        Custom reporting system with data visualization
+                      <li className="text-slate-300">
+                        • Custom reporting system with data visualization
                       </li>
                     </ul>
                   </div>
