@@ -39,7 +39,7 @@ function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-slate-900">
+    <div className="relative min-h-screen bg-white">
       {/* Navigation */}
       <Navigation activeSection={activeSection} />
 

@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import type { FC } from 'react';
+import { useScrollReveal } from '../hooks/useScrollReveal';
+import eightQueensLogo from '../assets/8queens_logo.png';
 import webCert from '../assets/certificates/8queens-web.jpg';
 import mobileCert from '../assets/certificates/8queens-mobile.jpg';
+import openweaverLogo from '../assets/openweaver-logo.png';
 import openWeaverCert from '../assets/certificates/openweaver.jpg';
+import wisrightLogo from '../assets/wisright-logo.png';
 
 interface ExperienceData {
   id: number;
@@ -24,7 +28,7 @@ const experiencesData: ExperienceData[] = [
   {
     id: 1,
     company: "Wisright Technologies",
-    logo: "https://via.placeholder.com/150/3B82F6/FFFFFF?text=WT",
+    logo: wisrightLogo,
     role: "Full Stack & AI Agent Developer",
     duration: "June 2025 – Present",
     duringCollege: false,
@@ -53,7 +57,7 @@ const experiencesData: ExperienceData[] = [
   {
     id: 2,
     company: "8Queens Software Technologies",
-    logo: "https://via.placeholder.com/150/8B5CF6/FFFFFF?text=8Q",
+    logo: eightQueensLogo,
     role: "Web Developer Intern",
     duration: "July 2023 & Oct-Nov 2024",
     duringCollege: true,
@@ -80,7 +84,7 @@ const experiencesData: ExperienceData[] = [
   {
     id: 4,
     company: "Open Weaver – ICT Academy",
-    logo: "https://via.placeholder.com/150/10B981/FFFFFF?text=OW",
+    logo: openweaverLogo,
     role: "Full Stack Development Intern",
     duration: "October 2023",
     duringCollege: true,
@@ -109,15 +113,15 @@ const Experience: FC = () => {
   };
 
   return (
-    <section id="experience" className="min-h-[60vh] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-6 py-20">
+    <section id="experience" className="min-h-[60vh] bg-white flex items-center justify-center px-6 py-20">
       <div className="max-w-7xl w-full">
         
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-            Internship & <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Experience</span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4">
+            Internship & <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600">Experience</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-amber-500 mx-auto rounded-full"></div>
         </div>
 
         {/* Experience Cards Grid */}
@@ -127,48 +131,54 @@ const Experience: FC = () => {
               <div
                 key={exp.id}
                 onClick={() => handleCardClick(exp)}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 cursor-pointer hover:scale-105 min-h-[320px] overflow-hidden"
+                className="bg-white rounded-2xl shadow-md hover:shadow-xl hover:shadow-blue-200/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] min-h-[340px] overflow-hidden border border-gray-100 hover:border-blue-200"
               >
                 <div className="flex flex-col h-full">
-                  {/* Company Logo */}
-                  <div className="h-24 bg-gradient-to-br from-blue-50 to-purple-50 rounded-t-2xl flex items-center justify-center p-4">
+                  {/* Company Logo - Clean White Design */}
+                  <div className="h-28 bg-gradient-to-br from-gray-50 to-white rounded-t-2xl flex items-center justify-center p-5 border-b border-gray-100">
                     <img
                       src={exp.logo}
                       alt={exp.company}
-                      className="max-h-full max-w-full object-contain"
+                      className="max-h-16 max-w-full object-contain transition-transform duration-300 group-hover:scale-105 filter drop-shadow-sm"
                     />
                   </div>
 
                   {/* Card Content */}
-                  <div className="p-6 flex-1 flex flex-col">
-                    <h3 className="text-lg font-bold text-slate-800 mb-2">
+                  <div className="p-5 flex-1 flex flex-col">
+                    <h3 className="text-xl font-bold text-slate-900 mb-1 leading-tight">
                       {exp.company}
                     </h3>
-                    <p className="text-blue-600 font-semibold mb-1 text-sm">
+                    <p className="text-blue-600 font-semibold mb-2 text-sm leading-tight">
                       {exp.role}
                     </p>
-                    <p className="text-slate-600 text-sm mb-4">
+                    <p className="text-slate-500 text-sm mb-3 flex items-center">
+                      <svg className="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
                       {exp.duration}
                     </p>
 
                     {exp.duringCollege && (
-                      <span className="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full w-fit">
+                      <span className="inline-block bg-blue-100 text-blue-700 text-[10px] font-medium px-2 py-0.5 rounded-full w-fit">
                         During College
                       </span>
                     )}
 
                     {/* Certificate Badge */}
                     {exp.certificateImages && exp.certificateImages.length > 0 && (
-                      <div className="mt-auto pt-4">
-                        <div className="flex items-center gap-2 text-green-600 text-xs font-medium">
+                      <div className="mt-auto pt-3">
+                        <div className="flex items-center gap-1.5 text-emerald-600 text-[11px] font-medium bg-emerald-50 px-2.5 py-1 rounded-md w-fit border border-emerald-100">
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
                           {exp.certificateImages.length} Certificate{exp.certificateImages.length > 1 ? 's' : ''} Available
                         </div>
                       </div>
                     )}
 
-                    <div className="mt-auto pt-4">
-                      <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
-                        View Details
+                    <div className="mt-auto pt-3">
+                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-1.5 rounded-lg font-medium text-xs transition-all duration-200 shadow-sm hover:shadow-md active:scale-[0.98]">
+                        View Details →
                       </button>
                     </div>
                   </div>
@@ -202,15 +212,15 @@ const Experience: FC = () => {
 
             {/* Certificate Images */}
             {selectedExperience.certificateImages && selectedExperience.certificateImages.length > 0 && (
-              <div className="w-full bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-t-2xl">
+              <div className="w-full bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-t-2xl">
                 <div className="mb-4">
                   <h3 className="text-xl font-bold text-slate-800 mb-2">Certificates</h3>
-                  <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                  <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {selectedExperience.certificateImages.map((cert, idx) => (
                     <div key={idx} className="relative group">
-                      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 rounded-xl opacity-25 group-hover:opacity-50 blur transition-all duration-300"></div>
+                      <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 rounded-xl opacity-25 group-hover:opacity-50 blur transition-all duration-300"></div>
                       <div className="relative bg-white p-4 rounded-xl shadow-xl">
                         <div className="relative aspect-[3/2] bg-gray-50 rounded-lg overflow-hidden">
                           <img
@@ -223,7 +233,7 @@ const Experience: FC = () => {
                               const parent = target.parentElement;
                               if (parent) {
                                 parent.innerHTML = `
-                                  <div class="flex items-center justify-center h-full bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg">
+                                  <div class="flex items-center justify-center h-full bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg">
                                     <div class="text-center p-6">
                                       <svg class="w-16 h-16 mx-auto mb-3 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -300,9 +310,9 @@ const Experience: FC = () => {
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {selectedExperience.techUsed.map((tech, idx) => (
-                      <span 
+                      <span
                         key={idx}
-                        className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg text-sm font-medium"
+                        className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-md"
                       >
                         {tech}
                       </span>
@@ -331,7 +341,7 @@ const Experience: FC = () => {
                   <h3 className="text-lg font-semibold text-slate-800 mb-3">
                     Internship Details
                   </h3>
-                  <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-lg">
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-lg border border-blue-100">
                     {selectedExperience.points.map((point, idx) => (
                       <p key={idx} className={`text-slate-700 ${point === "" ? "mt-4" : "ml-4"}`}>
                         {point}
@@ -351,7 +361,7 @@ const Experience: FC = () => {
                     {selectedExperience.projects.map((project, idx) => (
                       <div 
                         key={idx}
-                        className="bg-gradient-to-br from-blue-50 to-purple-50 p-4 rounded-lg border border-blue-100"
+                        className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-100 shadow-sm"
                       >
                         <h4 className="font-semibold text-slate-800 mb-1">
                           {project.name}

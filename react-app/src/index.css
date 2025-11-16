@@ -1,5 +1,31 @@
 @import "tailwindcss";
 
+/* Custom Scrollbar Styles */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #93c5fd;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #60a5fa;
+}
+
+/* Firefox scrollbar */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #93c5fd #f1f5f9;
+}
+
 /* Custom Animations */
 @keyframes gradient {
   0% {
@@ -164,22 +190,22 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: #f8f9fa;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+  background: linear-gradient(to bottom, #facc15, #f59e0b);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #2563eb, #7c3aed);
+  background: linear-gradient(to bottom, #fde047, #f97316);
 }
 
 /* Selection colors */
 ::selection {
-  background: rgba(139, 92, 246, 0.3);
-  color: white;
+  background: rgba(250, 204, 21, 0.3);
+  color: #1f2937;
 }
 
 /* Focus styles */
@@ -267,4 +293,204 @@ html {
 /* Glow on focus */
 .glow-focus:focus {
   box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+}
+
+/* Yellow-themed animations */
+@keyframes yellow-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translateY(-15px) rotate(90deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-8px) rotate(180deg);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-20px) rotate(270deg);
+    opacity: 0.8;
+  }
+}
+
+@keyframes yellow-float-delayed {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.5;
+  }
+  33% {
+    transform: translateY(12px) rotate(-120deg);
+    opacity: 0.7;
+  }
+  66% {
+    transform: translateY(-8px) rotate(-240deg);
+    opacity: 0.9;
+  }
+}
+
+@keyframes yellow-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.3),
+                0 0 40px rgba(245, 158, 11, 0.2),
+                0 0 60px rgba(217, 119, 6, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.5),
+                0 0 60px rgba(245, 158, 11, 0.3),
+                0 0 90px rgba(217, 119, 6, 0.2);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(200%) rotate(45deg);
+  }
+}
+
+@keyframes yellow-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+    filter: blur(1px);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+    filter: blur(2px);
+  }
+}
+
+/* Yellow theme animation classes */
+.animate-yellow-float {
+  animation: yellow-float 8s ease-in-out infinite;
+}
+
+.animate-yellow-float-delayed {
+  animation: yellow-float-delayed 10s ease-in-out infinite;
+}
+
+.animate-yellow-glow {
+  animation: yellow-glow 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-yellow-pulse {
+  animation: yellow-pulse 4s ease-in-out infinite;
+}
+
+/* Yellow glow effects */
+.yellow-glow {
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.3),
+              0 0 40px rgba(245, 158, 11, 0.2),
+              0 0 60px rgba(217, 119, 6, 0.1);
+}
+
+.yellow-glow-hover:hover {
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.5),
+              0 0 60px rgba(245, 158, 11, 0.3),
+              0 0 90px rgba(217, 119, 6, 0.2);
+}
+
+/* Enhanced yellow-themed button effects */
+.btn-yellow-glow:hover {
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.5),
+              0 0 50px rgba(245, 158, 11, 0.3),
+              0 0 70px rgba(217, 119, 6, 0.2);
+}
+
+.btn-yellow-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-yellow-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(251, 191, 36, 0.3),
+    transparent
+  );
+  transition: left 0.6s;
+}
+
+.btn-yellow-shine:hover::before {
+  left: 100%;
+}
+
+/* Standardized section backgrounds */
+.section-yellow-white {
+  background: linear-gradient(135deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(255, 251, 235, 0.9) 100%
+  );
+}
+
+.section-bg-elements::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(252, 211, 77, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.section-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Fade in up animation for project cards */
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+/* Award popup animations */
+@keyframes pulse-once {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-once {
+  animation: pulse-once 0.5s ease-out;
 }

@@ -8,4 +8,8 @@ export default defineConfig({
     tailwindcss(),
     react(),
   ],
+  optimizeDeps: {
+    exclude: ['groq-sdk'],
+    force: true
+  }
 })
