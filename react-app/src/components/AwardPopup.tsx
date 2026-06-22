@@ -178,13 +178,13 @@ const AwardPopup: FC<AwardPopupProps> = ({ isOpen, onClose }) => {
               {/* Achievement Highlights with Hover Effects */}
               <div className="flex flex-wrap justify-center gap-2 mt-4">
                 {[
-                  { text: 'Innovation Excellence', color: 'yellow' },
-                  { text: 'Technical Mastery', color: 'amber' },
-                  { text: 'Impactful Solution', color: 'yellow' }
+                  { text: 'Innovation Excellence', classes: 'bg-yellow-100 text-yellow-700 border-yellow-300' },
+                  { text: 'Technical Mastery', classes: 'bg-amber-100 text-amber-700 border-amber-300' },
+                  { text: 'Impactful Solution', classes: 'bg-yellow-100 text-yellow-700 border-yellow-300' }
                 ].map((badge, index) => (
                   <span
                     key={badge.text}
-                    className={`px-3 py-1 bg-${badge.color}-100 text-${badge.color}-700 rounded-full text-xs font-medium border border-${badge.color}-300 transform transition-all duration-500 hover:scale-110 hover:rotate-3 hover:shadow-lg cursor-default`}
+                    className={`px-3 py-1 ${badge.classes} rounded-full text-xs font-medium border transform transition-all duration-500 hover:scale-110 hover:rotate-3 hover:shadow-lg cursor-default`}
                     style={{ transitionDelay: `${400 + index * 100}ms` }}
                   >
                     {badge.text}
@@ -196,7 +196,7 @@ const AwardPopup: FC<AwardPopupProps> = ({ isOpen, onClose }) => {
             {/* Enhanced Close Button */}
             <button
               onClick={handleClose}
-              className={`mt-6 px-6 py-2 bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-400 hover:from-yellow-300 hover:via-yellow-400 hover:to-yellow-300 text-gray-800 font-bold rounded-xl transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-yellow-500/30 border-2 border-yellow-400 transform hover:-translate-y-1 ${
+              className={`group mt-6 px-6 py-2 bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-400 hover:from-yellow-300 hover:via-yellow-400 hover:to-yellow-300 text-gray-800 font-bold rounded-xl transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-yellow-500/30 border-2 border-yellow-400 transform hover:-translate-y-1 ${
                 isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
               }`}
               style={{ transitionDelay: '500ms' }}
@@ -262,6 +262,7 @@ style.textContent = `
     animation: sparkle 2s ease-in-out infinite;
   }
 `;
-if (typeof document !== 'undefined') {
+if (typeof document !== 'undefined' && !document.querySelector('style[data-award-popup-styles]')) {
+  style.dataset.awardPopupStyles = '';
   document.head.appendChild(style);
 }

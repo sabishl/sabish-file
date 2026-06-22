@@ -11,11 +11,15 @@ const Footer: FC = () => {
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-white">Sabish L</h3>
             <p className="text-slate-300 text-sm leading-relaxed">
-              Full Stack Developer & AI Researcher
+              Full Stack Developer &amp; AI Agent Developer
             </p>
             <p className="text-slate-400 text-sm">
-              Building innovative solutions with modern web technologies and AI integration.
+              Building AI-powered web applications that automate real business processes.
             </p>
+            <span className="inline-flex items-center gap-2 bg-green-500/20 border border-green-500/30 text-green-400 px-3 py-1 rounded-full text-xs font-medium mt-1">
+              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+              Open to freelance work
+            </span>
           </div>
 
           {/* Contact Information */}
@@ -84,15 +88,17 @@ const Footer: FC = () => {
             <div className="space-y-2">
               <a href="#home" className="block text-slate-300 hover:text-white transition-colors text-sm">Home</a>
               <a href="#about" className="block text-slate-300 hover:text-white transition-colors text-sm">About</a>
+              <a href="#services" className="block text-slate-300 hover:text-white transition-colors text-sm">Services</a>
               <a href="#experience" className="block text-slate-300 hover:text-white transition-colors text-sm">Experience</a>
               <a href="#projects" className="block text-slate-300 hover:text-white transition-colors text-sm">Projects</a>
+              <a href="#contact" className="block text-slate-300 hover:text-white transition-colors text-sm">Contact</a>
             </div>
 
             <div className="pt-4">
               <p className="text-sm text-slate-400 mb-3">Connect on Social</p>
               <div className="flex gap-3">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/sabishl"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center hover:bg-white/20 transition-colors"

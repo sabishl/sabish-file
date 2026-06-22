@@ -1,9 +1,9 @@
 import { Groq } from 'groq-sdk';
+import { RESUME_CONTENT } from '../data/resumeContent';
 
-// Initialize Groq with your API key
 const groq = new Groq({
   apiKey: import.meta.env.VITE_GROQ_API_KEY || '',
-  dangerouslyAllowBrowser: true
+  dangerouslyAllowBrowser: true,
 });
 
 export interface ChatMessage {
@@ -11,132 +11,127 @@ export interface ChatMessage {
   parts: Array<{ text: string }>;
 }
 
+const SYSTEM_PROMPT = `You are Sabish's portfolio assistant — a friendly, conversational AI on his personal portfolio website. Your only job is to help visitors learn about Sabish.
+
+Here is Sabish's complete resume. Use ONLY this information to answer questions:
+
+---
+${RESUME_CONTENT}
+---
+
+## Rules you must always follow:
+
+1. **Only answer from the resume above.** If a visitor asks something not covered in the resume (e.g. hobbies, favourite movies, opinions), say: "I don't have that information about Sabish — but feel free to reach out to him directly at lsabish2001@gmail.com!"
+
+2. **Never invent or assume facts.** Do not add skills, projects, companies, or dates that are not in the resume. If unsure, say you don't know.
+
+3. **Redirect off-topic questions warmly.** If someone asks a general question unrelated to Sabish (e.g. "how do I learn React?", "what's the capital of France?", "write me a poem"), reply like this:
+   "Ha, I wish I could help with that! I'm only set up to answer questions about Sabish — his skills, experience, and projects. Is there something about him you'd like to know? 😊"
+
+4. **Be conversational and friendly**, not stiff or corporate. Short, clear answers work best. Use bullet points when listing things.
+
+5. **When someone wants to contact Sabish**, always share: email (lsabish2001@gmail.com), phone (+91 90953 99164), LinkedIn (linkedin.com/in/sabish-l), and mention the WhatsApp button on the site.`;
+
 class AIService {
   private chatHistory: ChatMessage[] = [];
 
   constructor() {
-    // Initialize with a system prompt
-    this.chatHistory = [{
-      role: 'user',
-      parts: [{ text: 'You are Sabish\'s AI Assistant, a helpful and friendly AI that helps users learn about Sabish\'s skills, projects, experience, and contact information. Be conversational, professional, and informative. Respond as if you are representing Sabish personally.' }]
-    }];
+    this.chatHistory = [];
   }
 
   async generateResponse(userMessage: string): Promise<string> {
     try {
-      // Convert chat history to Groq format and add system message
-      const groqMessages = this.chatHistory.map(msg => ({
-        role: msg.role === 'model' ? 'assistant' : msg.role,
-        content: msg.parts[0]?.text || ''
-      }));
+      type GroqRole = 'system' | 'user' | 'assistant';
 
-      // Add system message for context
-      groqMessages.unshift({
-        role: 'system',
-        content: 'You are Sabish\'s AI Assistant, a helpful and friendly AI that helps users learn about Sabish\'s skills, projects, experience, and contact information. Be conversational, professional, and informative. Respond as if you are representing Sabish personally. Sabish is a skilled software developer with expertise in React, TypeScript, Node.js, Python, and modern web technologies. He has professional experience in software development and is passionate about creating innovative solutions. His contact information: email - lsabish2001@gmail.com, phone - +91 90953 99164, LinkedIn - https://www.linkedin.com/in/sabish-l'
-      });
+      const groqMessages: { role: GroqRole; content: string }[] = [
+        { role: 'system', content: SYSTEM_PROMPT },
+        ...this.chatHistory.map(msg => ({
+          role: (msg.role === 'model' ? 'assistant' : 'user') as GroqRole,
+          content: msg.parts[0]?.text || '',
+        })),
+        { role: 'user', content: userMessage },
+      ];
 
-      // Add user message to Groq messages
-      groqMessages.push({
-        role: 'user',
-        content: userMessage
-      });
-
-      // Generate response using Groq with streaming disabled for browser
       const chatCompletion = await groq.chat.completions.create({
         messages: groqMessages,
-        model: "llama-3.1-8b-instant",
-        temperature: 1,
-        max_completion_tokens: 1024,
+        model: 'llama-3.1-8b-instant',
+        temperature: 0.3,
+        max_completion_tokens: 512,
         top_p: 1,
         stream: false,
-        stop: null
+        stop: null,
       });
 
-      const response = chatCompletion.choices[0]?.message?.content || "I'm having trouble generating a response right now. Please try again.";
+      const response =
+        chatCompletion.choices[0]?.message?.content ||
+        "I'm having a bit of trouble right now — please try again in a moment!";
 
-      // Add user message to chat history
-      this.chatHistory.push({
-        role: 'user',
-        parts: [{ text: userMessage }]
-      });
+      this.chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+      this.chatHistory.push({ role: 'model', parts: [{ text: response }] });
 
-      // Add model response to chat history
-      this.chatHistory.push({
-        role: 'model',
-        parts: [{ text: response }]
-      });
-
-      // Keep only last 10 messages to maintain context
-      if (this.chatHistory.length > 10) {
-        this.chatHistory = this.chatHistory.slice(-10);
+      // Keep last 10 exchanges (20 messages)
+      if (this.chatHistory.length > 20) {
+        this.chatHistory = this.chatHistory.slice(-20);
       }
 
       return response;
     } catch (error) {
-      console.error('Error generating AI response:', error);
-
-      // Fallback to intelligent responses when API fails
+      console.error('Groq API error:', error);
       return this.generateFallbackResponse(userMessage);
     }
   }
 
   private generateFallbackResponse(userMessage: string): string {
-    const message = userMessage.toLowerCase();
+    const msg = userMessage.toLowerCase();
 
-    // Skills related responses
-    if (message.includes('skill') || message.includes('technologies') || message.includes('tech stack')) {
-      return "Sabish is skilled in React, TypeScript, Node.js, Python, and various web technologies. He has experience with frontend development, backend systems, and modern web frameworks. His technical toolkit includes JavaScript, HTML/CSS, Git, and cloud platforms.";
+    // Greetings
+    if (msg.match(/^(hi|hello|hey|hii|howdy|sup)\b/)) {
+      return "Hi there! 👋 I'm Sabish's portfolio assistant. You can ask me anything about his skills, projects, experience, or how to get in touch with him!";
     }
 
-    // Experience related responses
-    if (message.includes('experience') || message.includes('work') || message.includes('job') || message.includes('career')) {
-      return "Sabish has professional experience in software development, working on various projects ranging from web applications to system architecture. He's passionate about creating efficient, scalable solutions and staying current with industry trends.";
+    // Skills
+    if (msg.includes('skill') || msg.includes('tech') || msg.includes('stack') || msg.includes('know') || msg.includes('language')) {
+      return `Sabish's technical skills include:\n\n**Languages:** Java, Python, JavaScript\n**Frontend:** React.js, HTML5, CSS3\n**Backend:** Node.js (Express), FastAPI, Flask\n**Databases:** PostgreSQL, MongoDB, MySQL\n**AI & Automation:** RAG, LLM Integration, Prompt Engineering (BMAD), N8N\n**DevOps:** Docker (Basic), VPS Deployment, Coolify\n**Tools:** Git, Postman, Claude, GitHub Copilot`;
     }
 
-    // Projects related responses
-    if (message.includes('project') || message.includes('portfolio') || message.includes('work') || message.includes('built')) {
-      return "Sabish has worked on several impressive projects including web applications, mobile apps, and system designs. Each project demonstrates his problem-solving abilities and attention to detail. You can check out his projects section for specific examples!";
+    // Experience / work
+    if (msg.includes('experience') || msg.includes('work') || msg.includes('job') || msg.includes('company') || msg.includes('wisright')) {
+      return `Sabish worked at **WisRight Technologies, Chennai** (July 2025 – January 2026) as a Full Stack Developer (AI-Integrated Applications).\n\nHe built React.js frontends, scalable Node.js/Python APIs, optimized PostgreSQL schemas, integrated RAG-based AI workflows, and deployed Dockerized apps on VPS.`;
     }
 
-    // Contact related responses
-    if (message.includes('contact') || message.includes('reach') || message.includes('email') || message.includes('phone')) {
-      return "You can contact Sabish via email at lsabish2001@gmail.com or phone at +91 90953 99164. He's also active on LinkedIn and typically responds within a day. Feel free to reach out for collaborations or opportunities!";
+    // Projects
+    if (msg.includes('project') || msg.includes('built') || msg.includes('portfolio') || msg.includes('matrimony') || msg.includes('lms') || msg.includes('whatsapp') || msg.includes('crm')) {
+      return `Sabish has built three major projects:\n\n1. **TrueFriend Matrimony** — Admin panel for a live matrimony platform with 18K+ users (MERN Stack, JWT Auth)\n2. **AI-Integrated LMS** — Learning management system with Kimi LLM, RAG, and Whisper speech recognition (React, Node, PostgreSQL)\n3. **WhatsApp CRM** — Full CRM system with LLM-powered automation and speech-to-text (React, Node, MongoDB)`;
     }
 
-    // About related responses
-    if (message.includes('about') || message.includes('who') || message.includes('background')) {
-      return "Sabish is a passionate software developer with a strong foundation in computer science and a love for creating innovative solutions. He's dedicated to continuous learning and delivering high-quality code that makes a positive impact.";
+    // Education
+    if (msg.includes('education') || msg.includes('study') || msg.includes('degree') || msg.includes('college') || msg.includes('university') || msg.includes('cgpa') || msg.includes('gpa')) {
+      return `Sabish studied at **Ramco Institute of Technology**, completing his B.E in Computer Science and Engineering with a CGPA of **7.89**, graduating in **2025**.`;
     }
 
-    // Education related responses
-    if (message.includes('education') || message.includes('study') || message.includes('degree') || message.includes('college')) {
-      return "Sabish has a strong educational background in computer science or related fields, complemented by continuous self-learning and professional development. He believes in staying updated with the latest technologies and best practices.";
+    // Contact
+    if (msg.includes('contact') || msg.includes('reach') || msg.includes('email') || msg.includes('phone') || msg.includes('linkedin') || msg.includes('hire') || msg.includes('whatsapp')) {
+      return `You can reach Sabish through:\n\n📧 **Email:** lsabish2001@gmail.com\n📞 **Phone:** +91 90953 99164\n💼 **LinkedIn:** linkedin.com/in/sabish-l\n💬 You can also use the **WhatsApp button** on this page for the fastest reply!`;
     }
 
-    // General greeting responses
-    if (message.includes('hello') || message.includes('hi') || message.includes('hey') || message.includes('hii')) {
-      return "Hello! I'm Sabish's AI assistant. How can I help you learn more about Sabish's skills, experience, projects, or anything else you'd like to know?";
+    // Award / certification
+    if (msg.includes('award') || msg.includes('certificate') || msg.includes('achievement') || msg.includes('oracle')) {
+      return `Sabish won the **Best Project Award** from the Oracle Team for building an Admission Management System using Oracle APEX during college.\n\nHe's also certified in **Build AI-Powered Apps** from CodeWithMosh.`;
     }
 
-    // Help related responses
-    if (message.includes('help') || message.includes('what can you do')) {
-      return "I can help you learn about Sabish's professional background, technical skills, work experience, projects, and contact information. Feel free to ask me anything specific, or I can give you an overview of his capabilities!";
+    // Help
+    if (msg.includes('help') || msg.includes('what can you')) {
+      return `I can tell you about:\n- Sabish's **skills** and tech stack\n- His **work experience** at WisRight Technologies\n- The **projects** he's built\n- His **education** at Ramco Institute of Technology\n- **How to contact** him\n\nWhat would you like to know?`;
     }
 
-    // Default response
-    return "That's a great question! Based on what I know about Sabish, he's a talented software developer with expertise in modern web technologies. If you have specific questions about his skills, experience, projects, or how to contact him, I'd be happy to provide more detailed information!";
+    // Off-topic / default redirect
+    return `Ha, I wish I could help with that! I'm only set up to answer questions about Sabish — his skills, experience, and projects. Is there something about him you'd like to know? 😊`;
   }
 
-  // Clear chat history
   clearHistory(): void {
-    this.chatHistory = [{
-      role: 'user',
-      parts: [{ text: 'You are Sabish\'s AI Assistant, a helpful and friendly AI that helps users learn about Sabish\'s skills, projects, experience, and contact information. Be conversational, professional, and informative. Respond as if you are representing Sabish personally.' }]
-    }];
+    this.chatHistory = [];
   }
 
-  // Get current chat history
   getChatHistory(): ChatMessage[] {
     return this.chatHistory;
   }
