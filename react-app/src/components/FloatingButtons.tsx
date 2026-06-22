@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import React, { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 import './FloatingButtons.css';
 import aiBotLogo from '../assets/ai-bot-logo.png';
 import { aiService } from '../services/aiService';
@@ -9,11 +10,29 @@ interface FloatingButtonsProps {
   toggleChat: () => void;
 }
 
+const mdComponents: React.ComponentProps<typeof ReactMarkdown>['components'] = {
+  p: ({ children }) => <p className="mb-1.5 last:mb-0 leading-relaxed">{children}</p>,
+  strong: ({ children }) => <strong className="font-semibold text-gray-900">{children}</strong>,
+  ul: ({ children }) => <ul className="my-1.5 space-y-1">{children}</ul>,
+  ol: ({ children }) => <ol className="my-1.5 space-y-1 list-none">{children}</ol>,
+  li: ({ children }) => (
+    <li className="flex gap-2 text-gray-700">
+      <span className="text-yellow-500 font-bold shrink-0 mt-px">•</span>
+      <span>{children}</span>
+    </li>
+  ),
+  h1: ({ children }) => <h1 className="font-bold text-gray-900 mb-1 text-base">{children}</h1>,
+  h2: ({ children }) => <h2 className="font-bold text-gray-800 mb-1 text-sm">{children}</h2>,
+  h3: ({ children }) => <h3 className="font-semibold text-gray-800 mb-0.5 text-sm">{children}</h3>,
+  code: ({ children }) => <code className="bg-gray-100 text-yellow-700 px-1 py-0.5 rounded text-xs font-mono">{children}</code>,
+  a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" className="text-yellow-600 hover:underline">{children}</a>,
+};
+
 const FloatingButtons: FC<FloatingButtonsProps> = ({ isChatOpen, toggleChat }) => {
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<{ text: string; isUser: boolean; timestamp: Date }[]>([
-    { text: "Hi! I'm Sabish's AI Assistant. How can I help you today? You can ask me about Sabish's skills, projects, experience, or contact information.", isUser: false, timestamp: new Date() }
+    { text: "Hi! 👋 I'm **Sabish's portfolio assistant**. Ask me anything about him:\n\n- Skills & tech stack\n- Projects he's built\n- Work experience\n- How to contact him", isUser: false, timestamp: new Date() }
   ]);
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
@@ -87,8 +106,7 @@ const FloatingButtons: FC<FloatingButtonsProps> = ({ isChatOpen, toggleChat }) =
           isUser: false,
           timestamp: new Date()
         }]);
-      } catch (error) {
-        console.error('Error in AI service:', error);
+      } catch {
         setMessages(prev => [...prev, {
           text: "I'm having trouble connecting right now. Please try again or contact Sabish directly via WhatsApp.",
           isUser: false,
@@ -124,16 +142,12 @@ const FloatingButtons: FC<FloatingButtonsProps> = ({ isChatOpen, toggleChat }) =
             💬 Chat on WhatsApp
           </span>
 
-          {/* Notification badge */}
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full shadow-md flex items-center justify-center">
-            <span className="text-[10px] font-bold">1</span>
-          </span>
         </button>
 
         {/* AI Assistant Button */}
         <button
           onClick={handleToggleChat}
-          className={`group relative w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600 hover:from-violet-400 hover:via-purple-500 hover:to-indigo-500 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-110 flex items-center justify-center border border-purple-300/20 hover:border-purple-300/40 overflow-hidden ${isChatOpen ? 'ring-2 ring-purple-300 ring-offset-2 ring-offset-purple-900 animate-pulse' : ''}`}
+          className={`group relative w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-violet-500 via-purple-600 to-indigo-600 hover:from-violet-400 hover:via-purple-500 hover:to-indigo-500 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-110 flex items-center justify-center border border-purple-300/20 hover:border-purple-300/40 overflow-hidden ${isChatOpen ? 'ring-2 ring-purple-300 ring-offset-2 ring-offset-purple-900' : ''}`}
           aria-label="AI Assistant"
         >
           {/* Glow effect background */}
@@ -195,7 +209,7 @@ const FloatingButtons: FC<FloatingButtonsProps> = ({ isChatOpen, toggleChat }) =
                   className="w-5 h-5 object-cover rounded filter drop-shadow-sm"
                 />
               </div>
-              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white shadow-sm animate-ping"></div>
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white shadow-sm animate-pulse"></div>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 text-sm">Sabish AI Assistant</h3>
@@ -231,7 +245,7 @@ const FloatingButtons: FC<FloatingButtonsProps> = ({ isChatOpen, toggleChat }) =
               >
                 <div className="flex gap-3 p-3">
                   {/* Avatar */}
-                  <div className="flex-shrink-0 mt-1">
+                  <div className="shrink-0 mt-1">
                     {msg.isUser ? (
                       <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
                         <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -266,10 +280,10 @@ const FloatingButtons: FC<FloatingButtonsProps> = ({ isChatOpen, toggleChat }) =
                         </div>
                       )}
                     </div>
-                    <div className="prose prose-sm max-w-none">
-                      <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap break-words">
+                    <div className="text-sm text-gray-700">
+                      <ReactMarkdown components={mdComponents}>
                         {msg.text}
-                      </p>
+                      </ReactMarkdown>
                     </div>
                   </div>
                 </div>
@@ -301,14 +315,6 @@ const FloatingButtons: FC<FloatingButtonsProps> = ({ isChatOpen, toggleChat }) =
                 className="flex-1 px-4 py-3 bg-transparent text-gray-800 placeholder-gray-400 border-0 focus:outline-none text-sm resize-none max-h-32 min-h-[44px] overflow-y-auto"
               />
               <div className="flex items-center gap-1 p-2">
-                <button
-                  className="p-2 text-gray-400 hover:text-gray-600 rounded-lg transition-colors duration-200"
-                  title="Attach file"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                  </svg>
-                </button>
                 <button
                   onClick={handleSendMessage}
                   disabled={!message.trim() || isLoading}

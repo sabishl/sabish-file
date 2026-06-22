@@ -21,8 +21,10 @@ const Navigation: FC<NavigationProps> = ({ activeSection }) => {
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
+    { id: 'services', label: 'Services' },
     { id: 'experience', label: 'Experience' },
     { id: 'projects', label: 'Projects' },
+    { id: 'contact', label: 'Contact' },
   ];
 
   const scrollToSection = (sectionId: string) => {
@@ -35,7 +37,7 @@ const Navigation: FC<NavigationProps> = ({ activeSection }) => {
 
   return (
     <nav className="fixed top-4 right-4 z-50 transition-all duration-500">
-      <div className="hidden md:flex items-center bg-white/80 backdrop-blur-md rounded-full border border-gray-200/50 p-1 shadow-xl">
+      <div className={`hidden md:flex items-center backdrop-blur-md rounded-full border border-gray-200/50 p-1 shadow-xl transition-colors duration-300 ${isScrolled ? 'bg-white/95' : 'bg-white/80'}`}>
         {navItems.map((item) => (
           <button
             key={item.id}

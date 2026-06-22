@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { FC } from 'react';
-import { useScrollReveal } from '../hooks/useScrollReveal';
 import eightQueensLogo from '../assets/8queens_logo.png';
 import webCert from '../assets/certificates/8queens-web.jpg';
 import mobileCert from '../assets/certificates/8queens-mobile.jpg';
@@ -34,9 +33,9 @@ const experiencesData: ExperienceData[] = [
     duringCollege: false,
     techUsed: ["ReactJS", "Node.js", "Express.js", "PostgreSQL", "LLMs (Gemma, Kimi, Anthropic)"],
     description: [
-      "Working on AI-integrated full stack development",
-      "Experience with React–PostgreSQL–Express–Node architecture",
-      "Hands-on with AI agent integration using LLMs"
+      "Built WaveX — an AI translation system that converts English audio, video, and PDF to 6 Indian languages, reducing manual translation time from hours to seconds",
+      "Architected full-stack production apps using React, PostgreSQL, Express, and Node.js — deployed live at wisright.com",
+      "Integrated Gemma and Kimi LLMs into production applications serving real users"
     ],
     projects: [
       {
@@ -52,7 +51,7 @@ const experiencesData: ExperienceData[] = [
         description: "MERN Stack app with added features and database integration."
       }
     ],
-    certificateImages: ["https://via.placeholder.com/600x400/3B82F6/FFFFFF?text=Certificate"]
+    certificateImages: []
   },
   {
     id: 2,
@@ -131,7 +130,7 @@ const Experience: FC = () => {
               <div
                 key={exp.id}
                 onClick={() => handleCardClick(exp)}
-                className="bg-white rounded-2xl shadow-md hover:shadow-xl hover:shadow-blue-200/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] min-h-[340px] overflow-hidden border border-gray-100 hover:border-blue-200"
+                className="group bg-white rounded-2xl shadow-md hover:shadow-xl hover:shadow-blue-200/50 transition-all duration-300 cursor-pointer hover:scale-[1.02] min-h-[340px] overflow-hidden border border-gray-100 hover:border-blue-200"
               >
                 <div className="flex flex-col h-full">
                   {/* Company Logo - Clean White Design */}
@@ -326,10 +325,10 @@ const Experience: FC = () => {
                 <h3 className="text-lg font-semibold text-slate-800 mb-3">
                   Key Responsibilities
                 </h3>
-                <ul className="space-y-2">
+                <ul className="space-y-3">
                   {selectedExperience.description.map((item, idx) => (
-                    <li key={idx} className="text-slate-700">
-                      • {item}
+                    <li key={idx} className="text-slate-700 pl-3 border-l-4 border-yellow-400">
+                      {item}
                     </li>
                   ))}
                 </ul>

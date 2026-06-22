@@ -9,7 +9,6 @@ export default defineConfig({
     react(),
   ],
   optimizeDeps: {
-    exclude: ['groq-sdk'],
-    force: true
+    exclude: ['groq-sdk']
   }
 })

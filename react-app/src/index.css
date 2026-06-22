@@ -494,3 +494,12 @@ html {
 .animate-pulse-once {
   animation: pulse-once 0.5s ease-out;
 }
+
+@keyframes underline-expand {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.animate-underline-expand {
+  animation: underline-expand 0.5s ease forwards;
+}
